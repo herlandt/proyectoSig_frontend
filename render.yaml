@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: visorsig-frontend
+    runtime: docker
+    repo: https://github.com/herlandt/proyectoSig_frontend
+    branch: main
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: Backend__Url
+        sync: false
+      - key: ReverseProxy__Clusters__backend__Destinations__principal__Address
+        sync: false
+      - key: Seguridad__RutaClaves
+        value: /app/claves
+
