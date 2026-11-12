@@ -10,6 +10,7 @@ RUN dotnet publish src/VisorDatosSIG.Web/VisorDatosSIG.Web.csproj -c Release -o 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=build /app/publish .
+COPY claves/ /app/claves/
 
 # Render inyecta PORT
 ENV ASPNETCORE_URLS=http://+:${PORT:-10000}
