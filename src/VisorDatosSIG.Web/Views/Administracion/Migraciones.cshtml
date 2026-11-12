@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Historial de migraciones";
+    ViewData["Seccion"] = "Administración";
+}
+<div class="contenido-pagina" data-seccion="migraciones">
+    <h1 class="titulo-pagina">Historial de migraciones</h1>
+    <p class="text-body-secondary">Cargas realizadas con el migrador SHP → SQL Server: fecha, usuario, archivo, tabla, duración, conteos y estado.</p>
+    <section class="panel p-3 p-md-4">
+        <div id="tablaMigraciones" aria-live="polite"><div class="estado-vacio"><span class="spinner-border spinner-border-sm me-2"></span>Cargando…</div></div>
+    </section>
+</div>
+
+<div class="modal fade" id="modalMigracion" tabindex="-1" aria-labelledby="tituloModalMigracion" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="tituloModalMigracion">Detalle de la migración</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" id="detalleMigracion"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/administracion.js" asp-append-version="true"></script>
+}

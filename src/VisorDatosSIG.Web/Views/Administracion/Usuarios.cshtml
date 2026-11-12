@@ -1,0 +1,90 @@
+@{
+    ViewData["Title"] = "Usuarios y perfiles";
+    ViewData["Seccion"] = "Administración";
+}
+<div class="contenido-pagina" data-seccion="usuarios">
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <h1 class="titulo-pagina mb-0 me-auto">Usuarios y perfiles</h1>
+        <button class="btn btn-primario" type="button" id="btnNuevo"><i class="bi bi-person-plus me-1" aria-hidden="true"></i>Nuevo usuario</button>
+    </div>
+    <section class="panel p-3 p-md-4">
+        <div id="tablaUsuarios" aria-live="polite"><div class="estado-vacio"><span class="spinner-border spinner-border-sm me-2"></span>Cargando…</div></div>
+    </section>
+</div>
+
+<div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="tituloModalUsuario" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="formUsuario" novalidate>
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="tituloModalUsuario">Nuevo usuario</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div id="errorUsuario" class="alert alert-danger d-none" role="alert"></div>
+                <input type="hidden" id="idUsuario" />
+                <div class="mb-3">
+                    <label class="form-label" for="uLogin">Usuario</label>
+                    <input class="form-control" id="uLogin" maxlength="50" autocomplete="off" required aria-describedby="ayudaLogin" />
+                    <div class="form-text" id="ayudaLogin">3 a 50 caracteres: letras, números, punto, guion o guion bajo.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="uNombre">Nombre completo</label>
+                    <input class="form-control" id="uNombre" maxlength="120" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="uRol">Perfil / rol</label>
+                    <select class="form-select" id="uRol" required></select>
+                    <div class="form-text">Administrador accede a todo; el resto de los roles opera como Consultor en el visor.</div>
+                </div>
+                <div id="bloqueContrasena">
+                    <div class="mb-3">
+                        <label class="form-label" for="uContrasena">Contraseña</label>
+                        <input class="form-control" id="uContrasena" type="password" autocomplete="new-password" maxlength="128" aria-describedby="ayudaContrasena" />
+                        <div class="form-text" id="ayudaContrasena">Mínimo 8 caracteres, con letras y números.</div>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="uConfirmar">Confirmar contraseña</label>
+                        <input class="form-control" id="uConfirmar" type="password" autocomplete="new-password" maxlength="128" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primario" id="btnGuardarUsuario">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modalContrasena" tabindex="-1" aria-labelledby="tituloModalContrasena" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="formContrasena" novalidate>
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="tituloModalContrasena">Restablecer contraseña</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div id="errorContrasena" class="alert alert-danger d-none" role="alert"></div>
+                <p class="mb-3">Usuario: <strong id="rLogin"></strong></p>
+                <input type="hidden" id="rId" />
+                <div class="mb-3">
+                    <label class="form-label" for="rNueva">Nueva contraseña</label>
+                    <input class="form-control" id="rNueva" type="password" autocomplete="new-password" maxlength="128" />
+                    <div class="form-text">Mínimo 8 caracteres, con letras y números.</div>
+                </div>
+                <div>
+                    <label class="form-label" for="rConfirmar">Confirmar contraseña</label>
+                    <input class="form-control" id="rConfirmar" type="password" autocomplete="new-password" maxlength="128" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primario">Restablecer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/administracion.js" asp-append-version="true"></script>
+}

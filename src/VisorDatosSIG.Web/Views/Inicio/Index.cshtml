@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Dashboard general";
+    ViewData["Seccion"] = "Dashboard";
+}
+<div class="contenido-pagina">
+    <div class="d-flex flex-wrap align-items-start gap-3 mb-3">
+        <div>
+            <p class="eyebrow">Resumen estadístico</p>
+            <h1 class="titulo-pagina mb-1">Dashboard general</h1>
+            <p class="text-body-secondary small mb-0">Cantidad y porcentaje de códigos fijos por estado del servicio.</p>
+        </div>
+        <div class="panel px-3 py-2 ms-sm-auto small">
+            <div class="text-body-secondary">Datos actualizados</div>
+            <strong id="fechaActualizado">—</strong>
+        </div>
+    </div>
+
+    <div id="estadoPanel" class="alert alert-info d-flex align-items-center gap-2" role="status">
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Cargando resumen de datos…
+    </div>
+
+    <div class="row g-3 mb-3 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xxl-6" id="kpisEstados" aria-label="Indicadores por estado"></div>
+
+    <div class="row g-3 mb-4">
+        <section class="col-12 col-xl-6" aria-labelledby="tituloDistribucion">
+            <div class="panel p-3 p-md-4 h-100">
+                <h2 id="tituloDistribucion" class="h5 mb-1">Distribución porcentual</h2>
+                <p class="small text-body-secondary">Participación de cada estado sobre el total de códigos fijos.</p>
+                <div class="grafico-dona">
+                    <div id="graficoDona"></div>
+                    <ul class="list-unstyled mb-0 lista-estados" id="resumenEstados" aria-label="Códigos fijos por estado"></ul>
+                </div>
+            </div>
+        </section>
+        <section class="col-12 col-xl-6" aria-labelledby="tituloCantidades">
+            <div class="panel p-3 p-md-4 h-100">
+                <h2 id="tituloCantidades" class="h5 mb-1">Cantidad por estado</h2>
+                <p class="small text-body-secondary">Comparación del número de códigos fijos en cada estado.</p>
+                <div class="grafico-barras" id="graficoBarras"></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="row g-3">
+        <section class="col-12 col-xl-8" aria-labelledby="tituloCapas">
+            <h2 id="tituloCapas" class="h5 mb-3">Datos disponibles</h2>
+            <div class="row g-3" id="tarjetasCapas"></div>
+            <p class="small text-body-secondary mt-3 mb-0" id="ultimaActualizacion"></p>
+        </section>
+        <section class="col-12 col-xl-4" aria-labelledby="tituloAccesos">
+            <div class="panel p-3 p-md-4 h-100">
+                <h2 id="tituloAccesos" class="h5 mb-3">¿Qué desea consultar?</h2>
+                <form class="row g-2" id="formBusquedaRapida" role="search" action="/Visor" method="get">
+                    <div class="col-12">
+                        <label class="form-label" for="textoRapido">Código fijo, titular, lote, manzana o vía</label>
+                        <input class="form-control" id="textoRapido" name="texto" type="search" minlength="2" maxlength="100" required
+                               aria-describedby="ayudaBusquedaRapida" placeholder="Escriba un código o nombre…" />
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primario w-100" type="submit"><i class="bi bi-search me-1" aria-hidden="true"></i>Buscar en el mapa</button>
+                    </div>
+                </form>
+                <p class="form-text mt-2 mb-3" id="ayudaBusquedaRapida">Ingrese al menos 2 caracteres; verá las coincidencias en el mapa.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-outline-primary btn-sm" href="/Mapa"><i class="bi bi-badge-3d me-1" aria-hidden="true"></i>Visualización general</a>
+                    <a class="btn btn-outline-primary btn-sm" href="/Consultas?capa=codigosfijos"><i class="bi bi-upc-scan me-1" aria-hidden="true"></i>Consultar código</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/inicio.js" asp-append-version="true"></script>
+}

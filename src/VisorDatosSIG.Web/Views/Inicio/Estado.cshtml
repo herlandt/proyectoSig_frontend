@@ -1,0 +1,13 @@
+@{
+    Layout = "_LayoutAcceso";
+    var codigo = ViewData["Codigo"] as int? ?? 0;
+    ViewData["Title"] = codigo == 404 ? "Página no encontrada" : $"Error {codigo}";
+}
+<div class="tarjeta-acceso card shadow-sm">
+    <div class="card-body p-4 text-center">
+        <i class="bi @(codigo == 404 ? "bi-signpost-split" : "bi-exclamation-triangle") fs-1 text-primario" aria-hidden="true"></i>
+        <h1 class="h4 mt-2">@(codigo == 404 ? "Página no encontrada" : $"No se pudo completar la solicitud ({codigo})")</h1>
+        <p>@(codigo == 404 ? "La dirección no existe o fue movida." : "Intente nuevamente en unos instantes.")</p>
+        <a class="btn btn-primario" href="/">Volver al inicio</a>
+    </div>
+</div>

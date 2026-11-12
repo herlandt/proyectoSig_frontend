@@ -1,0 +1,70 @@
+@{
+    var nombre = User.FindFirstValue("nombre") ?? User.Identity?.Name;
+    var perfil = User.FindFirstValue("perfil") ?? "";
+    var seccion = ViewData["Seccion"] as string ?? ViewData["Title"] as string ?? "";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · VisorDatosSIG</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    @await RenderSectionAsync("Estilos", required: false)
+    <link rel="stylesheet" href="~/css/sitio.css" asp-append-version="true" />
+</head>
+<body class="@(ViewData["ClaseBody"] ?? "")">
+    <a class="visually-hidden-focusable btn btn-light position-absolute m-2 z-3" href="#contenido">Saltar al contenido</a>
+
+    <header class="cabecera navbar navbar-dark px-2 px-md-3">
+        <div class="d-flex align-items-center gap-2 min-w-0">
+            <button class="btn btn-cabecera d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuLateral"
+                    aria-controls="menuLateral" aria-label="Abrir menú">
+                <i class="bi bi-list fs-4" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-cabecera d-none d-lg-inline-flex" type="button" id="btnColapsarMenu"
+                    aria-controls="menuLateral" aria-expanded="true" aria-label="Contraer o expandir el menú">
+                <i class="bi bi-layout-sidebar-inset fs-5" aria-hidden="true"></i>
+            </button>
+            <a class="navbar-brand fw-bold mb-0 me-1" href="/">VisorDatosSIG</a>
+            <span class="seccion text-truncate d-none d-sm-inline">@seccion</span>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-cabecera dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                    aria-label="Menú de usuario: @nombre, @perfil">
+                <i class="bi bi-person-circle fs-5" aria-hidden="true"></i>
+                <span class="d-none d-md-inline text-truncate usuario-nombre">@nombre</span>
+                <span class="badge text-bg-light">@perfil</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><h2 class="dropdown-header">@nombre · @User.Identity?.Name</h2></li>
+                <li><a class="dropdown-item" href="/Cuenta/Perfil"><i class="bi bi-person-badge me-2" aria-hidden="true"></i>Mi perfil</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><button class="dropdown-item text-danger" type="button" data-accion="salir"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Salir</button></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="cuerpo">
+        <nav id="menuLateral" class="menu-lateral offcanvas-lg offcanvas-start" tabindex="-1" aria-label="Menú principal">
+            <div class="offcanvas-header d-lg-none">
+                <h2 class="offcanvas-title h5">Menú</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#menuLateral" aria-label="Cerrar menú"></button>
+            </div>
+            <div class="offcanvas-body p-0 d-block">
+                @await Component.InvokeAsync("MenuLateral")
+            </div>
+        </nav>
+        <main id="contenido" class="contenido" tabindex="-1">
+            @RenderBody()
+        </main>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="avisos" aria-live="polite" aria-atomic="false"></div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/comun.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

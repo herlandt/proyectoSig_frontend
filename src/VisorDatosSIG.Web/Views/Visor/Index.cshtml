@@ -1,0 +1,79 @@
+@{
+    ViewData["Title"] = "Visor cartográfico";
+    ViewData["Seccion"] = "Visor cartográfico";
+    ViewData["ClaseBody"] = "pagina-visor";
+}
+@section Estilos {
+    <link rel="stylesheet" href="~/lib/leaflet/leaflet.css" />
+}
+<div class="visor" id="visor">
+    <!-- Capas, leyenda y herramientas: panel fijo en escritorio, deslizable en móvil -->
+    <aside id="panelCapas" class="panel-capas offcanvas-lg offcanvas-start" tabindex="-1" aria-labelledby="tituloCapas">
+        <div class="offcanvas-header d-lg-none">
+            <h2 class="offcanvas-title h5">Capas y leyenda</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#panelCapas" aria-label="Cerrar"></button>
+        </div>
+        <div class="offcanvas-body d-block p-3">
+            <h2 class="titulo-panel mt-0" id="tituloCapas" tabindex="-1">Capas</h2>
+            <div class="lista-capas" id="listaCapas"><span class="text-body-secondary small">Cargando…</span></div>
+
+            <h2 class="titulo-panel">Leyenda</h2>
+            <ul class="list-unstyled leyenda mb-3" id="leyenda"></ul>
+
+            <h2 class="titulo-panel" id="tituloHerramientas" tabindex="-1">Herramientas</h2>
+            <div class="d-grid gap-2">
+                <button class="btn btn-primario" type="button" id="btnExtension"><i class="bi bi-arrows-fullscreen me-2" aria-hidden="true"></i>Ver toda el área</button>
+                <button class="btn btn-outline-secondary" type="button" id="btnLimpiar"><i class="bi bi-eraser me-2" aria-hidden="true"></i>Quitar selección</button>
+                <button class="btn btn-outline-secondary" type="button" id="btnVerResultados" aria-controls="panelResultados"><i class="bi bi-table me-2" aria-hidden="true"></i>Panel de resultados</button>
+            </div>
+            <p class="small text-body-secondary mt-3 mb-0"><i class="bi bi-hand-index me-1" aria-hidden="true"></i>Haga clic o toque el mapa para identificar entidades.</p>
+        </div>
+    </aside>
+
+    <section class="zona-mapa" aria-label="Mapa">
+      <div class="marco-mapa">
+        <form class="barra-mapa input-group shadow-sm" id="formBusqueda" role="search">
+            <label class="visually-hidden" for="textoBusqueda">Buscar en el mapa</label>
+            <input class="form-control" id="textoBusqueda" type="search" minlength="2" maxlength="100" autocomplete="off"
+                   placeholder="Buscar código, titular, lote, manzana o vía…" />
+            <button class="btn btn-primario" type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i><span class="d-none d-sm-inline ms-1">Buscar</span></button>
+        </form>
+        <div class="chip chip-consulta d-none" id="chipConsulta" role="status">
+            <i class="bi bi-funnel-fill text-primario me-1" aria-hidden="true"></i><span id="textoConsulta"></span>
+            <button class="btn btn-link btn-sm p-0 ms-2 align-baseline" type="button" id="btnQuitarConsulta">Limpiar búsqueda</button>
+        </div>
+        <div class="botones-moviles align-items-start">
+            <button class="btn btn-light" type="button" id="btnCapas" aria-controls="panelCapas" aria-label="Mostrar u ocultar capas y leyenda" title="Capas y leyenda"><i class="bi bi-layers" aria-hidden="true"></i></button>
+            <button class="btn btn-light" type="button" id="btnResultadosMovil" aria-controls="panelResultados" aria-label="Mostrar u ocultar resultados" title="Resultados"><i class="bi bi-table" aria-hidden="true"></i></button>
+            <button class="btn btn-light d-none" type="button" id="btnVerDetalle" aria-controls="panelDetalle" aria-expanded="false" title="Volver a la ficha de la selección"><i class="bi bi-info-circle me-1" aria-hidden="true"></i>Ver ficha</button>
+        </div>
+
+        <div id="mapa" role="application" aria-label="Mapa interactivo. Use los controles de zoom o haga clic para identificar."></div>
+        <div class="estado-mapa" id="estadoMapa" aria-live="polite"></div>
+      </div>
+
+        <section id="panelResultados" class="panel-resultados offcanvas-lg offcanvas-bottom oculto" tabindex="-1"
+                 data-bs-backdrop="false" data-bs-scroll="true" aria-labelledby="tituloResultados">
+            <div class="d-flex align-items-center gap-2 px-3 py-2 border-bottom sticky-top bg-white">
+                <h2 class="h6 mb-0 me-auto" id="tituloResultados">Resultados</h2>
+                <a class="btn btn-sm btn-outline-secondary d-none" id="btnExportar" href="#" download><i class="bi bi-filetype-csv me-1" aria-hidden="true"></i>Exportar</a>
+                <button class="btn-close" type="button" id="btnCerrarResultados" aria-label="Cerrar resultados"></button>
+            </div>
+            <div class="p-2 p-md-3" id="contenidoResultados"><div class="estado-vacio">Busque por código fijo, titular, lote, manzana o vía para ver los resultados aquí.</div></div>
+        </section>
+    </section>
+
+    <aside id="panelDetalle" class="panel-detalle offcanvas-lg offcanvas-bottom" tabindex="-1"
+           data-bs-backdrop="false" data-bs-scroll="true" aria-labelledby="tituloDetalle">
+        <div class="d-flex align-items-center px-3 py-2 border-bottom sticky-top bg-white">
+            <h2 class="h6 mb-0 me-auto" id="tituloDetalle">Ficha de la selección</h2>
+            <button class="btn-close" type="button" id="btnCerrarDetalle" aria-label="Cerrar ficha y conservar selección" title="Cerrar ficha y conservar selección"></button>
+        </div>
+        <div class="p-3" id="contenidoDetalle"></div>
+    </aside>
+</div>
+
+@section Scripts {
+    <script src="~/lib/leaflet/leaflet.js"></script>
+    <script src="~/js/visor.js" asp-append-version="true"></script>
+}

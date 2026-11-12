@@ -1,0 +1,73 @@
+@model string
+@{
+    bool corte = Model == "Corte";
+    string trabajador = corte ? "cortador" : "reconectador";
+    ViewData["Title"] = corte ? "Asignación de cortes" : "Asignación de reconexiones";
+    ViewData["Seccion"] = "Asignaciones";
+    ViewData["ClaseBody"] = "pagina-operacion";
+}
+@section Estilos {
+    <link rel="stylesheet" href="~/lib/leaflet/leaflet.css" />
+}
+<div class="operacion" id="asignacion" data-tipo="@Model">
+    <aside class="operacion-panel" aria-labelledby="tituloAsignacion">
+        <p class="eyebrow">Planificación operativa</p>
+        <h1 class="h3 fw-bold mb-1" id="tituloAsignacion">@ViewData["Title"]</h1>
+        <p class="small text-body-secondary">
+            Seleccione al @trabajador, marque en el mapa el punto de partida e indique cuántos códigos
+            @(corte ? "«Para Corte»" : "«Cortado»") desea agregar. La ruta se calcula por las calles (Dijkstra sobre la capa de vías)
+            e incluye los pendientes que el @trabajador ya tiene.
+        </p>
+
+        <form id="formAsignacion" novalidate>
+            <div class="mb-3">
+                <label class="form-label fw-semibold" for="selTrabajador">Usuario @trabajador</label>
+                <select class="form-select" id="selTrabajador" required>
+                    <option value="">Cargando…</option>
+                </select>
+            </div>
+            <div class="alert alert-warning py-2 small mb-3" id="pendientes" role="status">Pendientes actuales: <strong>0</strong></div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold" for="cantidad">Cantidad de códigos adicionales</label>
+                <input class="form-control" id="cantidad" type="number" min="0" max="200" step="1" value="10" inputmode="numeric" />
+                <div class="form-text" id="disponibles"></div>
+            </div>
+            <div class="caja-partida mb-3" id="cajaPartida">
+                <strong>Punto de partida</strong>
+                <span id="textoPartida">Pulse en el mapa para marcarlo (puede arrastrar el marcador).</span>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primario flex-fill" type="button" id="btnCalcular">
+                    <i class="bi bi-signpost-split me-1" aria-hidden="true"></i>Calcular ruta óptima
+                </button>
+                <button class="btn btn-success flex-fill" type="button" id="btnGuardar" disabled>
+                    <i class="bi bi-floppy me-1" aria-hidden="true"></i>Guardar asignación
+                </button>
+            </div>
+        </form>
+
+        <div class="small mt-3" id="mensaje" role="status" aria-live="polite"></div>
+
+        <div class="d-flex align-items-center mt-3 mb-2">
+            <h2 class="h6 fw-bold mb-0" id="tituloLista">Asignaciones pendientes del usuario</h2>
+            <span class="ms-auto small text-body-secondary" id="resumenRuta"></span>
+        </div>
+        <ol class="lista-paradas" id="listaParadas" aria-labelledby="tituloLista">
+            <li class="text-body-secondary">Seleccione un @trabajador.</li>
+        </ol>
+        <button class="btn btn-outline-danger btn-sm mt-3 d-none" type="button" id="btnAnular">
+            <i class="bi bi-x-octagon me-1" aria-hidden="true"></i>Anular la asignación activa
+        </button>
+    </aside>
+
+    <section class="operacion-mapa" aria-label="Mapa de asignación">
+        <div class="mapa" id="mapa"></div>
+        <div class="aviso-mapa" id="avisoMapa">Pulse en el mapa para establecer el punto de partida</div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/lib/leaflet/leaflet.js"></script>
+    <script src="~/js/mapa-base.js" asp-append-version="true"></script>
+    <script src="~/js/asignacion.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,12 @@
+@{
+    Layout = User.Identity?.IsAuthenticated == true ? "_Layout" : "_LayoutAcceso";
+    ViewData["Title"] = "Acceso denegado";
+}
+<div class="contenido-pagina" style="max-width: 640px">
+    <div class="panel p-4 text-center">
+        <i class="bi bi-shield-lock fs-1 text-danger" aria-hidden="true"></i>
+        <h1 class="h3 mt-2">Acceso denegado</h1>
+        <p class="text-body-secondary">Su perfil no tiene permiso para usar esta opción. Si lo necesita, solicítelo al administrador del sistema.</p>
+        <a class="btn btn-primario" href="/">Volver al inicio</a>
+    </div>
+</div>

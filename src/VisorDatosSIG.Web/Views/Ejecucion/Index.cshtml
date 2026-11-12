@@ -1,0 +1,75 @@
+@model string
+@{
+    bool corte = Model == "Corte";
+    ViewData["Title"] = corte ? "Ejecución de cortes" : "Ejecución de reconexiones";
+    ViewData["Seccion"] = "Ejecución";
+}
+@section Estilos {
+    <link rel="stylesheet" href="~/lib/leaflet/leaflet.css" />
+}
+<div class="contenido-pagina" id="ejecucion" data-tipo="@Model">
+    <p class="eyebrow">Registro en campo</p>
+    <h1 class="titulo-pagina mb-1">@ViewData["Title"]</h1>
+    <p class="text-body-secondary small">
+        Lo registrado desde la aplicación móvil: resultado, lectura, observación, fotografías y ubicación GPS al guardar.
+        Se marca <span class="alerta-radio"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i> fuera del radio</span>
+        cuando el trabajador guardó lejos del código fijo.
+    </p>
+
+    <form class="panel p-3 mb-3 row g-2 align-items-end mx-0" id="formFiltros" novalidate>
+        <div class="col-6 col-md-2">
+            <label class="form-label" for="desde">Desde</label>
+            <input class="form-control" type="date" id="desde" />
+        </div>
+        <div class="col-6 col-md-2">
+            <label class="form-label" for="hasta">Hasta</label>
+            <input class="form-control" type="date" id="hasta" />
+        </div>
+        <div class="col-12 col-md-3">
+            <label class="form-label" for="selTrabajador">Trabajador</label>
+            <select class="form-select" id="selTrabajador"><option value="">Todos</option></select>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="soloAlertas" />
+                <label class="form-check-label" for="soloAlertas">Solo las guardadas fuera del radio</label>
+            </div>
+        </div>
+        <div class="col-12 col-md-2">
+            <button class="btn btn-primario w-100" type="submit"><i class="bi bi-search me-1" aria-hidden="true"></i>Buscar</button>
+        </div>
+    </form>
+
+    <section class="panel p-3" aria-labelledby="tituloResultados">
+        <h2 class="h6 fw-bold" id="tituloResultados">Registros</h2>
+        <div id="contenidoResultados"><div class="estado-vacio">Cargando…</div></div>
+    </section>
+</div>
+
+<div class="modal fade" id="modalDetalle" tabindex="-1" aria-labelledby="tituloDetalle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="tituloDetalle">Detalle del registro</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6"><dl class="row small mb-0" id="datosDetalle"></dl></div>
+                    <div class="col-md-6">
+                        <div class="mapa-mini" id="mapaDetalle" role="img" aria-label="Ubicación del código fijo y del GPS al guardar"></div>
+                        <p class="small text-body-secondary mt-1 mb-0" id="leyendaMapa"></p>
+                    </div>
+                </div>
+                <h3 class="h6 fw-bold mt-3">Fotografías de evidencia</h3>
+                <div class="galeria-fotos" id="fotosDetalle"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/leaflet/leaflet.js"></script>
+    <script src="~/js/mapa-base.js" asp-append-version="true"></script>
+    <script src="~/js/ejecucion.js" asp-append-version="true"></script>
+}

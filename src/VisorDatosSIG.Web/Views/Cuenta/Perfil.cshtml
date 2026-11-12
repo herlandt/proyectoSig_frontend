@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Mi perfil";
+    ViewData["Seccion"] = "Cuenta";
+}
+<div class="contenido-pagina" style="max-width: 760px">
+    <h1 class="titulo-pagina">Mi perfil</h1>
+    <section class="panel p-3 p-md-4 mb-3" aria-labelledby="tituloDatos">
+        <h2 class="h5" id="tituloDatos">Datos personales</h2>
+        <dl class="row mb-0" id="datosPerfil"><dd class="col-12 text-body-secondary">Cargando…</dd></dl>
+    </section>
+    <section class="panel p-3 p-md-4" aria-labelledby="tituloClave">
+        <h2 class="h5" id="tituloClave">Cambiar contraseña</h2>
+        <form id="formClave" novalidate>
+            <div id="mensajeClave" class="alert d-none" role="alert"></div>
+            <div class="mb-3">
+                <label class="form-label" for="claveActual">Contraseña actual</label>
+                <input class="form-control" type="password" id="claveActual" autocomplete="current-password" maxlength="128" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="claveNueva">Nueva contraseña</label>
+                <input class="form-control" type="password" id="claveNueva" autocomplete="new-password" maxlength="128" required aria-describedby="ayudaClave" />
+                <div class="form-text" id="ayudaClave">Mínimo 8 caracteres, con letras y números.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="claveConfirmar">Confirmar nueva contraseña</label>
+                <input class="form-control" type="password" id="claveConfirmar" autocomplete="new-password" maxlength="128" required />
+            </div>
+            <button class="btn btn-primario" type="submit">Cambiar contraseña</button>
+        </form>
+    </section>
+</div>
+@section Scripts {
+    <script src="~/js/perfil.js" asp-append-version="true"></script>
+}

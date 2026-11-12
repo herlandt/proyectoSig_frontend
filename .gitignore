@@ -1,0 +1,11 @@
+﻿bin/
+obj/
+.vs/
+*.user
+*.suo
+*.rsuser
+TestResults/
+publish/
+node_modules/
+.local/
+appsettings.*.local.json

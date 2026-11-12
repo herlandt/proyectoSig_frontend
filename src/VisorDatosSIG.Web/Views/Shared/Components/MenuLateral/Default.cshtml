@@ -1,0 +1,54 @@
+@model List<OpcionMenu>
+@{
+    var ruta = Context.Request.Path.Value ?? "/";
+    bool Activa(string? url)
+    {
+        if (string.IsNullOrEmpty(url)) return false;
+        var limpia = url.Split('?', '#')[0];
+        return limpia == "/" ? ruta == "/" || ruta.StartsWith("/Inicio", StringComparison.OrdinalIgnoreCase)
+                             : ruta.StartsWith(limpia, StringComparison.OrdinalIgnoreCase);
+    }
+}
+<ul class="list-unstyled menu mb-0">
+    @foreach (var grupo in Model.OrderBy(m => m.Orden))
+    {
+        var abierto = grupo.Hijos.Any(h => Activa(h.Url));
+        var id = "menu-" + grupo.Nombre.GetHashCode().ToString("x");
+        <li class="menu-grupo">
+            @if (grupo.Hijos.Count == 1 && grupo.Nombre == "Inicio")
+            {
+                var h = grupo.Hijos[0];
+                <a class="menu-enlace @(Activa(h.Url) ? "activo" : "")" href="@h.Url" title="@grupo.Nombre" aria-current="@(Activa(h.Url) ? "page" : null)">
+                    <i class="bi @(grupo.Icono ?? "bi-dot")" aria-hidden="true"></i><span class="menu-texto">@grupo.Nombre</span>
+                </a>
+            }
+            else
+            {
+                <button class="menu-enlace menu-padre @(abierto ? "" : "collapsed")" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#@id" title="@grupo.Nombre" aria-expanded="@(abierto ? "true" : "false")" aria-controls="@id">
+                    <i class="bi @(grupo.Icono ?? "bi-dot")" aria-hidden="true"></i><span class="menu-texto">@grupo.Nombre</span>
+                    <i class="bi bi-chevron-down ms-auto flecha" aria-hidden="true"></i>
+                </button>
+                <ul class="list-unstyled collapse @(abierto ? "show" : "")" id="@id">
+                    @foreach (var h in grupo.Hijos.OrderBy(x => x.Orden))
+                    {
+                        <li>
+                            @if (h.Url == "/Cuenta/Salir")
+                            {
+                                <button class="menu-enlace menu-hijo" type="button" data-accion="salir" title="@h.Nombre">
+                                    <i class="bi @(h.Icono ?? "bi-dot")" aria-hidden="true"></i><span class="menu-texto">@h.Nombre</span>
+                                </button>
+                            }
+                            else
+                            {
+                                <a class="menu-enlace menu-hijo @(Activa(h.Url) && !h.Url!.Contains('?') && !h.Url.Contains('#') ? "activo" : "")" href="@h.Url" title="@h.Nombre">
+                                    <i class="bi @(h.Icono ?? "bi-dot")" aria-hidden="true"></i><span class="menu-texto">@h.Nombre</span>
+                                </a>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>

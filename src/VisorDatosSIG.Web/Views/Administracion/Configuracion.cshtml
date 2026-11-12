@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Configuración operativa";
+    ViewData["Seccion"] = "Administración";
+}
+<div class="contenido-pagina" style="max-width: 860px">
+    <h1 class="titulo-pagina">Configuración operativa</h1>
+    <p class="text-body-secondary">
+        Parámetros de las rutas y del trabajo en campo. Se guardan en <code>dbo.ConfiguracionOperativa</code> y se aplican
+        desde la siguiente ruta que se calcule o el siguiente registro que llegue del celular.
+    </p>
+
+    <form class="panel p-3 p-md-4" id="formConfiguracion" novalidate>
+        <div id="mensajeConfiguracion" role="status" aria-live="polite"></div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold" for="velocidadKmH">Velocidad de traslado (km/h)</label>
+                <input class="form-control" id="velocidadKmH" type="number" min="1" max="120" step="0.5" required />
+                <div class="form-text">Para estimar el tiempo de viaje entre paradas por las calles.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold" for="minutosPorParada">Minutos de trabajo por parada</label>
+                <input class="form-control" id="minutosPorParada" type="number" min="0" max="240" step="0.5" required />
+                <div class="form-text">Tiempo que se suma por cada corte o reconexión.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold" for="intervaloGpsSegundos">Intervalo de envío GPS (segundos)</label>
+                <input class="form-control" id="intervaloGpsSegundos" type="number" min="5" max="600" step="1" required />
+                <div class="form-text">Cada cuánto envía el celular su posición mientras el recorrido está iniciado.</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold" for="radioValidacionMetros">Radio de validación (m)</label>
+                <input class="form-control" id="radioValidacionMetros" type="number" min="10" max="1000" step="1" required />
+                <div class="form-text">Si el trabajador guarda más lejos del código fijo, el registro queda marcado «fuera del radio».</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold" for="maximoFotos">Fotografías por parada (máximo)</label>
+                <input class="form-control" id="maximoFotos" type="number" min="1" max="10" step="1" required />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold" for="maximoParadas">Paradas por ruta (máximo)</label>
+                <input class="form-control" id="maximoParadas" type="number" min="1" max="200" step="1" required />
+            </div>
+        </div>
+        <div class="mt-4">
+            <button class="btn btn-primario" type="submit" id="btnGuardarConfiguracion"><i class="bi bi-floppy me-1" aria-hidden="true"></i>Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/configuracion.js" asp-append-version="true"></script>
+}

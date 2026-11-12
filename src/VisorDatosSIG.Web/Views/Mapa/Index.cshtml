@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Visualización general";
+    ViewData["Seccion"] = "Dashboard";
+    ViewData["ClaseBody"] = "pagina-operacion";
+}
+@section Estilos {
+    <link rel="stylesheet" href="~/lib/maplibre-gl/maplibre-gl.css" />
+}
+<div class="operacion" id="mapa3d">
+    <aside class="operacion-panel" aria-labelledby="tituloMapa3d">
+        <p class="eyebrow">Visualización WebGL</p>
+        <h1 class="h3 fw-bold mb-1" id="tituloMapa3d">Mapa catastral 2D/3D</h1>
+        <p class="small text-body-secondary">En la vista 3D arrastre con el botón derecho (o Ctrl + arrastrar) para inclinar y rotar. Use la rueda para acercar o alejar.</p>
+
+        <div class="btn-group w-100 mb-3" role="group" aria-label="Tipo de vista">
+            <input type="radio" class="btn-check" name="vista" id="vista2d" value="2d" autocomplete="off" />
+            <label class="btn btn-outline-primary" for="vista2d">Vista 2D</label>
+            <input type="radio" class="btn-check" name="vista" id="vista3d" value="3d" autocomplete="off" checked />
+            <label class="btn btn-outline-primary" for="vista3d">Vista 3D</label>
+        </div>
+
+        <form id="formBusqueda3d" class="mb-3" role="search" novalidate>
+            <label class="form-label fw-semibold" for="textoBusqueda3d">Buscar código fijo o cliente</label>
+            <div class="input-group">
+                <input class="form-control" id="textoBusqueda3d" type="search" minlength="2" maxlength="100" placeholder="Ej.: 849 o Ramos" />
+                <button class="btn btn-primario" type="submit" aria-label="Buscar"><i class="bi bi-search" aria-hidden="true"></i></button>
+            </div>
+            <ul class="list-unstyled small mt-2 mb-0" id="resultadosBusqueda3d" aria-live="polite"></ul>
+        </form>
+
+        <h2 class="titulo-panel">Capas del mapa</h2>
+        <label class="form-label small fw-semibold" for="selFondo">Mapa de fondo</label>
+        <select class="form-select form-select-sm mb-2" id="selFondo">
+            <option value="ninguno">Sin fondo</option>
+            <option value="osm" selected>OpenStreetMap</option>
+            <option value="satelite">Satélite (Esri)</option>
+        </select>
+        <label class="form-label small fw-semibold" for="selEstado">Estado del código fijo</label>
+        <select class="form-select form-select-sm mb-3" id="selEstado"><option value="">Todos los estados</option></select>
+
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="capaCodigos" checked /><label class="form-check-label" for="capaCodigos">Códigos fijos</label></div>
+        <div class="leyenda-estados ms-4 mb-2" id="leyendaEstados"></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="capaManzanas" checked /><label class="form-check-label" for="capaManzanas">Manzanas</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="capaLotes" /><label class="form-check-label" for="capaLotes">Lotes</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="capaVias" checked /><label class="form-check-label" for="capaVias">Vías</label></div>
+        <div class="form-check"><input class="form-check-input" type="checkbox" id="capaDimensiones" /><label class="form-check-label" for="capaDimensiones">Dimensiones y superficie</label></div>
+        <p class="small text-body-secondary mt-2 mb-3" id="avisoZoom3d" role="status" aria-live="polite"></p>
+
+        <div class="d-grid gap-2">
+            <div class="d-flex gap-2">
+                <button class="btn btn-primario btn-sm flex-fill" type="button" id="btnInclinada">Vista inclinada</button>
+                <button class="btn btn-primario btn-sm flex-fill" type="button" id="btnSuperior">Vista superior</button>
+            </div>
+            <button class="btn btn-outline-secondary btn-sm" type="button" id="btnLimpiar3d"><i class="bi bi-eraser me-1" aria-hidden="true"></i>Limpiar selección</button>
+        </div>
+    </aside>
+
+    <section class="operacion-mapa" aria-label="Mapa 2D/3D">
+        <div class="mapa-3d" id="lienzo3d"></div>
+        <div class="indicador-zoom" id="indicadorZoom">Zoom: —</div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/lib/maplibre-gl/maplibre-gl-csp.js"></script>
+    <script src="~/js/mapa3d.js" asp-append-version="true"></script>
+}

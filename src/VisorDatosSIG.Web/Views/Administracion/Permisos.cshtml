@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Perfiles y permisos";
+    ViewData["Seccion"] = "Administración";
+    var modulos = new (string Modulo, bool Consultor)[]
+    {
+        ("Inicio", true), ("Visor cartográfico", true), ("Consultas y exportación", true),
+        ("Usuarios y perfiles", false), ("Catálogo de capas", false), ("Historial y bitácora", false),
+        ("Mi perfil / cerrar sesión", true), ("Ayuda", true),
+    };
+}
+<div class="contenido-pagina">
+    <h1 class="titulo-pagina">Perfiles y permisos</h1>
+    <section class="panel p-3 p-md-4 mb-3">
+        <h2 class="h5">Matriz de acceso (Anexo E.1)</h2>
+        <p class="text-body-secondary">Al crear o editar un usuario se le asignan automáticamente las opciones de menú de su perfil en <code>dbo.UsuarioMenu</code>.
+            Los permisos se verifican siempre en el servidor (páginas y API); ocultar una opción no reemplaza esa verificación.</p>
+        <div class="table-responsive">
+            <table class="table table-sm align-middle">
+                <thead><tr><th scope="col">Módulo</th><th scope="col">Administrador</th><th scope="col">Consultor</th></tr></thead>
+                <tbody>
+                    @foreach (var m in modulos)
+                    {
+                        <tr>
+                            <th scope="row" class="fw-normal">@m.Modulo</th>
+                            <td><span class="text-success"><i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>Permitido</span></td>
+                            <td>@if (m.Consultor) { <span class="text-success"><i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>Permitido</span> }
+                                else { <span class="text-danger"><i class="bi bi-x-circle-fill me-1" aria-hidden="true"></i>No permitido</span> }</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <p class="small text-body-secondary mb-0">Los roles operativos del diseño oficial (Catastro, Lecturador, Cortador, Reconexión) tienen en el visor el mismo acceso que Consultor.
+            El rol Catastro, además, puede ejecutar el migrador de escritorio.</p>
+    </section>
+</div>

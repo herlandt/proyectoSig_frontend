@@ -1,0 +1,69 @@
+@{
+    ViewData["Title"] = "Monitoreo de personal";
+    ViewData["Seccion"] = "Monitoreo";
+    ViewData["ClaseBody"] = "pagina-operacion";
+}
+@section Estilos {
+    <link rel="stylesheet" href="~/lib/leaflet/leaflet.css" />
+}
+<div class="operacion" id="monitoreo">
+    <aside class="operacion-panel" aria-labelledby="tituloMonitoreo">
+        <p class="eyebrow">Control operativo</p>
+        <h1 class="h3 fw-bold mb-3" id="tituloMonitoreo">Monitoreo de personal</h1>
+
+        <form class="row g-2 mb-3" id="formMonitoreo" novalidate>
+            <div class="col-12 col-sm-6 col-lg-12">
+                <label class="form-label fw-semibold" for="fecha">Fecha</label>
+                <input class="form-control" id="fecha" type="date" required />
+            </div>
+            <div class="col-12 col-sm-6 col-lg-12">
+                <label class="form-label fw-semibold" for="selTrabajador">Trabajador</label>
+                <select class="form-select" id="selTrabajador"><option value="">Todos</option></select>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-12">
+                <label class="form-label fw-semibold" for="selActividad">Actividad</label>
+                <select class="form-select" id="selActividad">
+                    <option value="todas">Todas</option>
+                    <option value="Corte">Cortes</option>
+                    <option value="Reconexion">Reconexiones</option>
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-12 d-flex align-items-end">
+                <button class="btn btn-primario w-100" type="submit"><i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>Actualizar</button>
+            </div>
+        </form>
+
+        <div class="alert alert-light border small py-2" id="resumen" role="status" aria-live="polite">Cargando…</div>
+
+        <h2 class="h6 fw-bold mt-3">Recorridos</h2>
+        <div class="d-grid gap-2" id="listaRecorridos"></div>
+
+        <h2 class="h6 fw-bold mt-4">En este momento</h2>
+        <ul class="list-unstyled small mb-0" id="enVivo"><li class="text-body-secondary">Sin posiciones recientes.</li></ul>
+    </aside>
+
+    <section class="operacion-mapa" aria-label="Mapa del monitoreo">
+        <div class="mapa" id="mapa"></div>
+        <div class="reproductor d-none" id="reproductor" aria-label="Reproducción del recorrido">
+            <button class="btn btn-sm btn-light" type="button" id="btnReiniciar" aria-label="Volver al inicio"><i class="bi bi-skip-start-fill" aria-hidden="true"></i></button>
+            <button class="btn btn-sm btn-light" type="button" id="btnReproducir"><i class="bi bi-play-fill me-1" aria-hidden="true"></i><span>Reproducir</span></button>
+            <label class="visually-hidden" for="avance">Avance del recorrido</label>
+            <input type="range" id="avance" min="0" max="0" value="0" />
+            <label class="visually-hidden" for="selVelocidad">Velocidad</label>
+            <select class="form-select form-select-sm" id="selVelocidad">
+                <option value="1">1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option>
+            </select>
+            <label class="visually-hidden" for="selPausa">Pausa en cada parada</label>
+            <select class="form-select form-select-sm" id="selPausa">
+                <option value="0">Sin pausa</option><option value="1500">Pausa 1,5 s</option><option value="3000" selected>Pausa 3 s</option>
+            </select>
+            <span class="estado-reproduccion" id="estadoReproduccion" aria-live="polite"></span>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/lib/leaflet/leaflet.js"></script>
+    <script src="~/js/mapa-base.js" asp-append-version="true"></script>
+    <script src="~/js/monitoreo.js" asp-append-version="true"></script>
+}

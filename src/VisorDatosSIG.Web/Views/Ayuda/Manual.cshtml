@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Manual de usuario";
+    ViewData["Seccion"] = "Ayuda";
+}
+<div class="contenido-pagina" style="max-width: 900px">
+    <h1 class="titulo-pagina">Manual de usuario</h1>
+    <div class="accordion" id="manual">
+        @{
+            var secciones = new (string Titulo, string Html)[]
+            {
+                ("Navegar el mapa",
+                 "<p>Use la rueda del mouse o los botones <strong>+</strong> y <strong>−</strong> para acercar o alejar; arrastre para desplazarse. En teléfonos use dos dedos.</p><p>El botón <em>Ver toda el área</em> vuelve a mostrar toda la zona. Abajo a la izquierda se muestran las coordenadas del puntero en WGS 84 y abajo a la derecha la escala.</p><p>Con el botón de capas de arriba a la derecha elija el mapa base: <strong>OpenStreetMap</strong>, <strong>Calles (Esri)</strong> o <strong>Satélite (Esri)</strong>. La elección se recuerda en el navegador. Si un proveedor no responde, el visor cambia solo a otro y avisa; las capas del sistema siguen visibles.</p>"),
+                ("Capas y leyenda",
+                 "<p>En el panel <em>Capas</em> active o desactive Manzanas, Lotes, Códigos fijos y Vías. La leyenda muestra solo las capas visibles.</p><p>Para no saturar el navegador, algunas capas se cargan a partir de cierto acercamiento (Manzanas y Vías desde el zoom 11, Códigos fijos desde el 14 y Lotes desde el 15). Si una capa no aparece, el mapa le indicará que debe acercarse.</p>"),
+                ("Identificar entidades",
+                 "<p>Haga clic o toque cualquier punto del mapa. La ficha muestra primero los datos principales; los identificadores y las coordenadas están en <em>Datos técnicos</em>. Si en ese punto hay varias capas, use <em>Entidades coincidentes</em> para revisar cada una.</p><p>Cerrar la ficha conserva el resaltado amarillo. Use <em>Ver ficha</em> para recuperarla y <em>Quitar selección</em> para quitar el resaltado.</p>"),
+                ("Buscar",
+                 "<p>Escriba en el buscador del mapa un código fijo, el apellido de un titular, un código de lote (por ejemplo <code>L03</code>), una manzana o el nombre de una vía. La búsqueda acepta texto parcial y no distingue mayúsculas.</p><p>Al tocar una fila del panel de resultados, el mapa se acerca y resalta la entidad; al tocar un resultado en el mapa, se resalta su fila.</p>"),
+                ("Consultas y filtros avanzados",
+                 "<p>En <em>Consultas</em> elija qué quiere consultar y escriba el código o nombre que conoce. Puede completar los filtros de ubicación, estado o tipo de vía; los campos vacíos no limitan la búsqueda. Pulse <em>Buscar</em> o Enter. <em>Limpiar búsqueda</em> vuelve a mostrar todos los registros de la capa.</p><p>Abra <em>Más condiciones</em> para buscar por un dato específico, incluidos los identificadores técnicos. Complete el dato y pulse <em>Buscar</em>; para combinar varias condiciones use <em>Agregar condición</em>. Puede combinar hasta cinco, incluidos los filtros habituales, y todas deben cumplirse.</p><p>Los resultados se muestran en una tabla paginada que puede ordenar por columna. Use <em>Ver en mapa</em> para ubicar una entidad, <em>Abrir resultados en el mapa</em> para consultar el conjunto filtrado por páginas y <em>Exportar CSV</em> para descargar los datos.</p>"),
+                ("Estados del servicio",
+                 "<p>Los códigos fijos se dibujan según el estado del servicio: <strong>Normal</strong> (verde), <strong>Para Corte</strong> (anillo naranja), <strong>Cortado</strong> (rojo con borde punteado), <strong>Baja Parcial</strong> (café semitransparente) y <strong>Baja Total</strong> (negro). Además del color cambia el borde, y el estado siempre aparece escrito en el detalle y en las tablas.</p>"),
+                ("Sesión y seguridad",
+                 "<p>La sesión se cierra sola después de 20 minutos sin actividad. Cierre la sesión con el botón <em>Salir</em> al terminar, sobre todo en equipos compartidos. Puede cambiar su contraseña en <em>Mi perfil</em>.</p>"),
+            };
+        }
+        @for (int i = 0; i < secciones.Length; i++)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button @(i == 0 ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#ayuda@(i)"
+                            aria-expanded="@(i == 0 ? "true" : "false")" aria-controls="ayuda@(i)">@secciones[i].Titulo</button>
+                </h2>
+                <div id="ayuda@(i)" class="accordion-collapse collapse @(i == 0 ? "show" : "")" data-bs-parent="#manual">
+                    <div class="accordion-body">@Html.Raw(secciones[i].Html)</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

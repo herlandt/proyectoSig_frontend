@@ -1,0 +1,14 @@
+@model string
+@{
+    Layout = "_LayoutAcceso";
+    ViewData["Title"] = "Error";
+}
+<div class="tarjeta-acceso card shadow-sm">
+    <div class="card-body p-4 text-center">
+        <i class="bi bi-exclamation-octagon fs-1 text-danger" aria-hidden="true"></i>
+        <h1 class="h4 mt-2">Ocurrió un error inesperado</h1>
+        <p>Intente nuevamente en unos instantes. Si el problema persiste, informe este código al administrador:</p>
+        <p><code>@Model</code></p>
+        <a class="btn btn-primario" href="/">Volver al inicio</a>
+    </div>
+</div>

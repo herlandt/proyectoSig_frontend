@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = "Consultas y filtros";
+    ViewData["Seccion"] = "Consultas y filtros";
+}
+<div class="contenido-pagina">
+    <h1 class="titulo-pagina mb-2">Buscar datos</h1>
+    <p class="text-body-secondary">Encuentre un código fijo, titular, lote, manzana o vía usando los datos que conoce.</p>
+
+    <section class="panel p-3 p-md-4 mb-3" aria-labelledby="tituloFiltros">
+        <h2 id="tituloFiltros" class="visually-hidden">Búsqueda y filtros</h2>
+        <form id="formFiltro" role="search" novalidate>
+          <fieldset id="controlesBusqueda" disabled>
+            <legend class="visually-hidden">Qué desea encontrar</legend>
+            <div class="row g-3 align-items-start">
+                <div class="col-12 col-md-4">
+                    <label class="form-label" for="selCapa">¿Qué quiere consultar?</label>
+                    <select class="form-select" id="selCapa" required></select>
+                </div>
+                <div class="col-12 col-md-8">
+                    <label class="form-label" for="textoGeneral" id="etiquetaBusqueda">Buscar</label>
+                    <input class="form-control" id="textoGeneral" type="search" maxlength="100" autocomplete="off" aria-describedby="ayudaBusqueda errorBusqueda" />
+                    <div class="form-text" id="ayudaBusqueda"></div>
+                </div>
+            </div>
+            <div class="row g-3 mt-1" id="filtrosRapidos"></div>
+            <details class="condiciones-avanzadas mt-3" id="filtrosAvanzados">
+                <summary>Más condiciones <span class="small text-body-secondary">(filtros avanzados)</span></summary>
+                <p class="small text-body-secondary mt-2" id="ayudaCondiciones">Para una condición, complete el dato y pulse Buscar. Para combinar varias, use Agregar condición. Deben cumplirse todas; puede combinar hasta cinco.</p>
+                <div class="row g-2 align-items-end">
+                    <div class="col-12 col-md-4">
+                        <label class="form-label" for="selCampo">Dato a filtrar</label>
+                        <select class="form-select" id="selCampo"></select>
+                    </div>
+                    <div class="col-12 col-sm-5 col-md-3">
+                        <label class="form-label" for="selOperador">Cómo comparar</label>
+                        <select class="form-select" id="selOperador"></select>
+                    </div>
+                    <div class="col-12 col-sm-7 col-md-3" id="contenedorValor">
+                        <label class="form-label" for="valor">Dato</label>
+                        <input class="form-control" id="valor" maxlength="100" aria-describedby="errorValor" />
+                    </div>
+                    <div class="col-12 col-md-2 d-grid">
+                        <button class="btn btn-outline-secondary" type="button" id="btnAgregar">Agregar condición</button>
+                    </div>
+                </div>
+                <div id="errorValor" class="text-danger small mt-2" role="alert"></div>
+            </details>
+            <div class="d-flex flex-wrap gap-2 align-items-center mt-3" id="filtrosActivos" aria-live="polite"></div>
+            <div id="errorBusqueda" class="text-danger small mt-2" role="alert"></div>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                <button class="btn btn-primario" type="submit" id="btnBuscar"><i class="bi bi-search me-1" aria-hidden="true"></i>Buscar</button>
+                <button class="btn btn-outline-secondary" type="button" id="btnLimpiar"><i class="bi bi-x-circle me-1" aria-hidden="true"></i>Limpiar búsqueda</button>
+            </div>
+          </fieldset>
+        </form>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+            <a class="btn btn-outline-secondary ms-md-auto d-none" id="btnMapa" href="#"><i class="bi bi-map me-1" aria-hidden="true"></i>Abrir resultados en el mapa</a>
+            <a class="btn btn-outline-secondary d-none" id="btnCsv" href="#" download><i class="bi bi-filetype-csv me-1" aria-hidden="true"></i>Exportar CSV</a>
+        </div>
+    </section>
+
+    <section class="panel p-3 p-md-4" id="resultados" aria-labelledby="tituloResultados" tabindex="-1">
+        <h2 class="h5 mb-3" id="tituloResultados">Resultados</h2>
+        <div id="contenidoResultados" aria-live="polite">
+            <div class="estado-vacio">Cargando opciones de búsqueda…</div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/js/consultas.js" asp-append-version="true"></script>
+}

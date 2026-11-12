@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = "Catálogo de capas";
+    ViewData["Seccion"] = "Administración";
+}
+<div class="contenido-pagina" data-seccion="capas">
+    <h1 class="titulo-pagina">Catálogo de capas</h1>
+    <p class="text-body-secondary">Metadatos, estilos, campos visibles y buscables de las capas publicadas. Los estilos son los mismos en el selector, la leyenda, el mapa y las tablas.</p>
+    <div class="row g-3" id="catalogoCapas" aria-live="polite"><div class="estado-vacio">Cargando…</div></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/administracion.js" asp-append-version="true"></script>
+}
